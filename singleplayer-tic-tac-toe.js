@@ -14,6 +14,9 @@ const winCombos = [
 
 const cells = document.querySelectorAll('.cell');
 startGame();
+//Sounds
+const gameOverSound = new Audio("cash_register_x.wav");
+const clickSound = new Audio("boing_x.wav");
 
 function startGame() {
 	document.querySelector(".endgame").style.display = "none";
@@ -30,6 +33,9 @@ function turnClick(square) {
 		turn(square.target.id, huPlayer)
 		if (!checkWin(origBoard, huPlayer) && !checkTie()) turn(bestSpot(), aiPlayer);
 	}
+	clickSound.play();
+	setHoverText();
+	checkWinner();
 }
 
 function turn(squareId, player) {
@@ -87,6 +93,8 @@ function checkTie() {
 	}
 	return false;
 }
+
+
 
 function minimax(newBoard, player) {
 	var availSpots = emptySquares();
