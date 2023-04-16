@@ -13,10 +13,14 @@ const winCombos = [
 ]
 
 const cells = document.querySelectorAll('.cell');
-startGame();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
 //Sounds
 const gameOverSound = new Audio("cash_register_x.wav");
 const clickSound = new Audio("boing_x.wav");
+const clickSound2 = new Audio("beep-02.wav");
+
+startGame();
 
 function startGame() {
 	document.querySelector(".endgame").style.display = "none";
@@ -31,14 +35,22 @@ function startGame() {
 function turnClick(square) {
 	if (typeof origBoard[square.target.id] == 'number') {
 		turn(square.target.id, huPlayer)
-		if (!checkWin(origBoard, huPlayer) && !checkTie()) turn(bestSpot(), aiPlayer);
+		sleep(1000).then(() => {
+			if (!checkWin(origBoard, huPlayer) && !checkTie()) {
+				turn(bestSpot(), aiPlayer);
+			}
+		});
 	}
-	clickSound.play();
 	setHoverText();
 	checkWinner();
 }
 
 function turn(squareId, player) {
+	if (player === huPlayer) {
+		clickSound.play();
+	} else {
+		clickSound2.play();
+	}
 	origBoard[squareId] = player;
 	document.getElementById(squareId).innerText = player;
 	let gameWon = checkWin(origBoard, player)
