@@ -16,6 +16,7 @@ playAgain.addEventListener("click", startNewGame);
 //Sounds
 const gameOverSound = new Audio("cash_register_x.wav");
 const clickSound = new Audio("boing_x.wav");
+const clickSound2 = new Audio("beep-02.wav");
 
 tiles.forEach((tile) => tile.addEventListener("click", tileClick));
 
@@ -51,14 +52,15 @@ function tileClick(event) {
   if (turn === PLAYER_X) {
     tile.innerText = PLAYER_X;
     boardState[tileNumber - 1] = PLAYER_X;
-    turn = PLAYER_O;
+      turn = PLAYER_O;
+      clickSound.play();
   } else {
     tile.innerText = PLAYER_O;
     boardState[tileNumber - 1] = PLAYER_O;
-    turn = PLAYER_X;
+      turn = PLAYER_X;
+      clickSound2.play();
   }
 
-  clickSound.play();
   setHoverText();
   checkWinner();
 }
